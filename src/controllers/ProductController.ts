@@ -30,6 +30,7 @@ export const show = async (req: Request, res: Response): Promise<Response> => {
 // Create a new product
 export const store = async (req: Request, res: Response): Promise<Response> => {
   try {
+    console.log("try creating", req.body);
     const product = await Product.create(req.body);
     return res.status(201).json(product);
   } catch (err) {
