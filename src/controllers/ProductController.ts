@@ -54,7 +54,7 @@ export const update = async (req: Request, res: Response): Promise<Response> => 
     if (req.file) data.image = req.file.filename;
 
     const product = await Product.update(data, { where: { id } });
-    res.json(product);
+    return res.status(200).json(product);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Error updating product" });
