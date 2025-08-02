@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Product from "../models/Product";
-
+import multer from "multer";
+import path from "path";
 // List all products
 export const index = async (req: Request, res: Response): Promise<Response> => {
   try {
@@ -31,7 +32,13 @@ export const show = async (req: Request, res: Response): Promise<Response> => {
 export const store = async (req: Request, res: Response): Promise<Response> => {
   try {
     console.log("try creating", req.body);
-    const product = await Product.create(req.body);
+    const product = await Product.create({
+      name: req.body.name,
+      details: req.body.details,
+      price: req.body.price,
+      stock: req.body.stock,
+      image: req.file ? req.file.filename : null, // store filename or URL
+    });
     return res.status(201).json(product);
   } catch (err) {
     console.error(err);
@@ -41,18 +48,16 @@ export const store = async (req: Request, res: Response): Promise<Response> => {
 
 // Update a product
 export const update = async (req: Request, res: Response): Promise<Response> => {
-  const { id } = req.params;
-  try {
-    const product = await Product.findByPk(id);
-    if (!product) {
-      return res.status(404).json({ error: "Product not found" });
-    }
+ try {
+    const id = req.params.id;
+    const data: any = { ...req.body };
+    if (req.file) data.image = req.file.filename;
 
-    await product.update(req.body);
-    return res.status(200).json(product);
+    const product = await Product.update(data, { where: { id } });
+    res.json(product);
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ error: "Error updating product" });
+    res.status(500).json({ error: "Error updating product" });
   }
 };
 
