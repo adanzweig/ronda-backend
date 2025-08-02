@@ -85,6 +85,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(Sentry.Handlers.requestHandler());
 app.use("/public", express.static(uploadConfig.directory));
+app.use("/uploads", express.static(uploadConfig.directory));
 
 // Rotas
 app.use(routes);
