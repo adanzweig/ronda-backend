@@ -43,7 +43,7 @@ export const store = async (req: Request, res: Response): Promise<Response> => {
       price: req.body.price,
       stock: req.body.stock,
       companyId: req.body.companyId,
-      image: req.file ? req.file.filename : null, // store filename or URL
+      metadata: {file: req.file ? req.file.filename : null}, // store metadata if needed
     });
     return res.status(201).json(product);
   } catch (err) {
@@ -57,9 +57,14 @@ export const update = async (req: Request, res: Response): Promise<Response> => 
  try {
     const id = req.params.id;
     const data: any = { ...req.body };
-    if (req.file) data.image = req.file.filename;
-
-    const product = await Product.update(data, { where: { id } });
+    const product = await Product.update({
+      name: req.body.name,
+      details: req.body.details,
+      price: req.body.price,
+      stock: req.body.stock,
+      companyId: req.body.companyId,
+      metadata: {file: req.file ? req.file.filename : null}, // store metadata if needed
+    }, { where: { id } });
     return res.status(200).json(product);
   } catch (err) {
     console.error(err);
