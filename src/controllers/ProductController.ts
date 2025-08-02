@@ -71,6 +71,9 @@ export const remove = async (req: Request, res: Response): Promise<Response> => 
     return res.status(500).json({ error: "Error deleting product" });
   }
 };
+// https://api-ronda.twimbox.com/products
+// https://api-ronda.twimbox.com/campaigns/?searchParam=&pageNumber=1
+// https://api-ronda.twimbox.com/products?searchParam=&pageNumber=1
 
 // List all products for a company
 export const listByCompany = async (

@@ -45,7 +45,7 @@ import flowDefaultRoutes from "./flowDefaultRoutes";
 import webHook from "./webHookRoutes";
 import flowBuilder from "./flowBuilderRoutes";
 import flowCampaignRoutes from "./flowCampaignRoutes";
-
+import productRoutes from "./productRoutes";
 
 const routes = Router();
 
@@ -86,7 +86,7 @@ routes.use(ticketTagRoutes);
 routes.use("/api", apiCompanyRoutes);
 routes.use("/api", apiContactRoutes);
 routes.use("/api", apiMessageRoutes);
-
+routes.use(productRoutes);
 routes.use(flowDefaultRoutes);
 routes.use(webHook)
 routes.use(flowBuilder)
