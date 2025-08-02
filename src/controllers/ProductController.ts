@@ -5,7 +5,12 @@ import path from "path";
 // List all products
 export const index = async (req: Request, res: Response): Promise<Response> => {
   try {
-    const products = await Product.findAll();
+    // Fetch all products where companyId matches the user's company
+    const companyId = req.query.companyId || req.user.companyId; // Assuming user has companyId in their token
+    if (!companyId) {
+      return res.status(400).json({ error: "Company ID is required" });
+    }
+    const products = await Product.findAll({ where: { companyId } });
     return res.status(200).json(products);
   } catch (err) {
     console.error(err);
