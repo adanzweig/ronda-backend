@@ -42,6 +42,7 @@ export const store = async (req: Request, res: Response): Promise<Response> => {
       details: req.body.details,
       price: req.body.price,
       stock: req.body.stock,
+      companyId: req.body.companyId,
       image: req.file ? req.file.filename : null, // store filename or URL
     });
     return res.status(201).json(product);
